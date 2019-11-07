@@ -52,3 +52,20 @@ test('RGBA.fromHex fails for #ffffffgf', () => {
     const error = RGBA.fromHexString('#ffffffgf');
     expect(error).toEqual(new Error('Could not parse "#ffffffgf" as hex color, it must match pattern #([0-9a-f]+)'));
 });
+
+test('RGBA.valid returns true for valid color', () => {
+    expect(RGBA.valid(RGBA.fromHexString('#000000'))).toBe(true);
+});
+
+test('RGBA.valid returns false for error', () => {
+    expect(RGBA.valid(RGBA.fromHexString(''))).toBe(false);
+});
+
+test('RGBA.assert works for valid color', () => {
+    expect(() => RGBA.assert(RGBA.fromHexString('#000000'))).not.toThrow();
+});
+
+test('RGBA.assert throws for error', () => {
+    expect(() => RGBA.assert(RGBA.fromHexString(''))).toThrow();
+});
+

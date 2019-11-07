@@ -1,6 +1,16 @@
 export class RGBA {
     private constructor(readonly r: number, readonly g: number, readonly b: number, readonly a: number) {}
 
+    public static assert(color: RGBA | Error): asserts color is RGBA {
+        if (color instanceof Error) {
+            throw color;
+        }
+    }
+
+    public static valid(color: RGBA | Error): color is RGBA {
+        return color instanceof Error === false;
+    }
+
     public static fromHexString(input: string): RGBA | Error {
         if (!input.startsWith('#')) {
             return new Error('Could not parse hex color without leading #');

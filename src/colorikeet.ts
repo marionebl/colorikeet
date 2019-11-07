@@ -16,6 +16,16 @@ export interface RGBAColor {
 export class Colorikeet {
     private constructor(private color: RGBA) {}
 
+    public static assert(color: Colorikeet | Error): asserts color is Colorikeet {
+        if (color instanceof Error) {
+            throw color;
+        }
+    }
+
+    public static valid(color: Colorikeet | Error): color is Colorikeet {
+        return color instanceof Error === false;
+    }
+
     public static fromString(input: string): Colorikeet | Error {
         const color = RGBA.fromHexString(input);
 
