@@ -16,8 +16,14 @@ export interface RGBAColor {
 export class Colorikeet {
     private constructor(private color: RGBA) {}
 
-    public static fromString(input: string): Colorikeet {
-        return new Colorikeet(RGBA.fromHexString(input));
+    public static fromString(input: string): Colorikeet | Error {
+        const color = RGBA.fromHexString(input);
+
+        if (color instanceof Error) {
+            return color;
+        }
+
+        return new Colorikeet(color);
     }
 
     public get rgb(): RGBColor {

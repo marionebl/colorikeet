@@ -1,5 +1,6 @@
 import {RGBA} from './rgba';
 
+// https://drafts.csswg.org/css-color/#example-5460df7f
 test('RGBA.fromHex works for #000000', () => {
     const color = RGBA.fromHexString('#000000');
     expect(color).toEqual(expect.objectContaining({ r: 0, g: 0, b: 0 }));
@@ -10,12 +11,44 @@ test('RGBA.fromHex works for #ffffff', () => {
     expect(color).toEqual(expect.objectContaining({ r: 255, g: 255, b: 255 }));
 });
 
-test('RGBA.fromHex works for 000000', () => {
-    const color = RGBA.fromHexString('000000');
-    expect(color).toEqual(expect.objectContaining({ r: 0, g: 0, b: 0 }));
+// https://drafts.csswg.org/css-color/#example-e60892a9
+test('RGBA.fromHex works for #ffffff00', () => {
+    const color = RGBA.fromHexString('#ffffff00');
+    expect(color).toEqual({ r: 255, g: 255, b: 255, a: 0 });
 });
 
+test('RGBA.fromHex works for #f00f', () => {
+    const color = RGBA.fromHexString('#f00f');
+    expect(color).toEqual({ r: 255, g: 0, b: 0, a: 1 });
+});
+
+// https://drafts.csswg.org/css-color/#example-49b19e9b
 test('RGBA.fromHex works for #000', () => {
     const color = RGBA.fromHexString('#000');
-    expect(color).toEqual(expect.objectContaining({ r: 0, g: 0, b: 0 }));
+    expect(color).toEqual({ r: 0, g: 0, b: 0, a: 1 });
+});
+
+test('RGBA.fromHex fails for 000000', () => {
+    const error = RGBA.fromHexString('000000');
+    expect(error).toEqual(new Error('Could not parse hex color without leading #'));
+});
+
+test('RGBA.fromHex fails for #0', () => {
+    const error = RGBA.fromHexString('#0');
+    expect(error).toEqual(new Error('Could not parse "#0" as hex color, expected 4, 5, 7, or 9 characters'));
+});
+
+test('RGBA.fromHex fails for #ffgfff', () => {
+    const error = RGBA.fromHexString('#ffgfff');
+    expect(error).toEqual(new Error('Could not parse "#ffgfff" as hex color, it must match pattern #([0-9a-f]+)'));
+});
+
+test('RGBA.fromHex fails for # 99999', () => {
+    const error = RGBA.fromHexString('# 99999');
+    expect(error).toEqual(new Error('Could not parse "# 99999" as hex color, it must match pattern #([0-9a-f]+)'));
+});
+
+test('RGBA.fromHex fails for #ffffffgf', () => {
+    const error = RGBA.fromHexString('#ffffffgf');
+    expect(error).toEqual(new Error('Could not parse "#ffffffgf" as hex color, it must match pattern #([0-9a-f]+)'));
 });
