@@ -40,4 +40,14 @@ export class RGBA {
         const a = typeof rawA === 'undefined' ? 255 : rawA;
         return new RGBA(r, g, b, a / 255);
     }
+
+    public static fromRgbString(input: string): RGBA | Error {
+        const match = input.match(/rgba?\(([0-9\s\.,%]+)\)/);
+        const rawData = match![1];
+        const data = rawData.split(',').map(item => item.trim());
+        const [r, g, b] = data.slice(0, 3).map(value => Math.min(parseInt(value, 10), 255));
+        const a = typeof data[3] === 'undefined' ? 1 : parseFloat(data[3]);
+        const factor = typeof data[3] === 'string' && data[3].endsWith('%') ? 100 : 1;
+        return new RGBA(r, g, b, Math.min(1, a / factor));
+    }
 }
