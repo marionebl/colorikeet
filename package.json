@@ -1,0 +1,20 @@
+{
+  "name": "colorikeet",
+  "version": "1.0.0",
+  "description": "A minimal color math toolset",
+  "main": "lib/colorikeet.js",
+  "repository": "git@github.com:marionebl/colorikeet.git",
+  "author": "Mario Nebl <hello@mario-nebl.de>",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc --build tsconfig.json",
+    "test": "tsc --build tsconfig.jest.json"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.22",
+    "@types/node": "^12.12.6",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.1.0",
+    "typescript": "^3.7.2"
+  }
+}
