@@ -26,7 +26,7 @@ export class Colorikeet {
         return color instanceof Error === false;
     }
 
-    public static fromString(input: string): Colorikeet | Error {
+    public static from(input: string): Colorikeet | Error {
         const color = RGBA.fromHexString(input);
 
         if (color instanceof Error) {
@@ -34,6 +34,16 @@ export class Colorikeet {
         }
 
         return new Colorikeet(color);
+    }
+
+    public static optional(input: string): Colorikeet | undefined {
+        const result = Colorikeet.from(input);
+
+        if (result instanceof Error) {
+            return;
+        }
+
+        return result;
     }
 
     public get rgb(): RGBColor {
