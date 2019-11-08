@@ -88,6 +88,26 @@ test('RGBA.fromRgbString trims rgb(300, 255, 500, 2)', () => {
     expect(color).toEqual(expect.objectContaining({ r: 255, g: 255, b: 255, a: 1 }));
 });
 
+test('RGBA.fromRgbString fails for r(255, 255, 255)', () => {
+    const error = RGBA.fromRgbString('r(255, 255, 255)');
+    expect(error).toEqual(new Error('Could not parse "r(255, 255, 255)" as rgb color, it must match pattern rgba?([0-9\s\.,%]+)'));
+});
+
+test('RGBA.fromRgbString fails for rgb(%, ..., )', () => {
+    const error = RGBA.fromRgbString('rgb(%, ..., )');
+    expect(error).toEqual(new Error('Could not parse "rgb(%, ..., )" as rgb color, it must contain 3 channels [0-255]'));
+});
+
+test('RGBA.fromRgbString fails for rgb(255, 255, 255, .%)', () => {
+    const error = RGBA.fromRgbString('rgb(255, 255, 255, .%)');
+    expect(error).toEqual(new Error('Could not parse "rgb(255, 255, 255, .%)" as rgb color, alpha channel must be [0-1] or [0-100]%'));
+});
+
+test('RGBA.fromRgbString fails for rgb(255.255.255)', () => {
+    const error = RGBA.fromRgbString('rgb(255.255.255)');
+    expect(error).toEqual(new Error('Could not parse "rgb(255.255.255)" as rgb color, must contain 3 or 4 channels - received 1'));
+});
+
 test('RGBA.valid returns true for valid color', () => {
     expect(RGBA.valid(RGBA.fromHexString('#000000'))).toBe(true);
 });
