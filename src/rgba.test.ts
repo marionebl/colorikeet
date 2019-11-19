@@ -186,6 +186,26 @@ test("RGBA.fromTuple fails for long tuple", () => {
   expect(color).toEqual(new Error(`RGBA.fromTuple requires a tuple with exactly 4 members, received 5 on [255,255,255,1,1]`));
 });
 
+test("RGBA.fromTuple fails for negative channel values", () => {
+  const color = RGBA.fromTuple([-1, 0, 0, 0] as any);
+  expect(color).toEqual(new Error(`RGBA.fromTuple requires rgb channel values matching [0-255], received -1 for r`));
+});
+
+test("RGBA.fromTuple fails with list of offending channel values", () => {
+  const color = RGBA.fromTuple([-1, 266, 0, 0] as any);
+  expect(color).toEqual(new Error(`RGBA.fromTuple requires rgb channel values matching [0-255], received -1 for r, 266 for g`));
+});
+
+test("RGBA.fromTuple fails for negative alpha channel", () => {
+  const color = RGBA.fromTuple([0, 0, 0, -0.1] as any);
+  expect(color).toEqual(new Error(`RGBA.fromTuple requires an alpha channel matching [0-1], received -0.1`));
+});
+
+test("RGBA.fromTuple fails for alpha channel gt 1", () => {
+  const color = RGBA.fromTuple([0, 0, 0, 1.1] as any);
+  expect(color).toEqual(new Error(`RGBA.fromTuple requires an alpha channel matching [0-1], received 1.1`));
+});
+
 test.each`
   rgba                  | hsla
   ${[0, 0, 0, 1]}       | ${[0, 0, 0, 1]}

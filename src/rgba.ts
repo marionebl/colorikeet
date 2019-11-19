@@ -23,8 +23,19 @@ export class RGBA {
     if (input.length !== 4) {
       return new Error(`RGBA.fromTuple requires a tuple with exactly 4 members, received ${input.length} on ${JSON.stringify(input)}`);
     }
-
+  
     const [r, g, b, a] = input;
+
+    const offending = [['r', r], ['g', g], ['b', b]].filter(([, c]) => c < 0 || c > 255);
+
+    if (offending.length > 0) {
+      return new Error(`RGBA.fromTuple requires rgb channel values matching [0-255], received ${offending.map(([n, v]) => `${v} for ${n}`).join(', ')}`);
+    }
+
+    if (a < 0 || a > 1) {
+      return new Error(`RGBA.fromTuple requires an alpha channel matching [0-1], received ${a}`)
+    }
+
     return new RGBA(r, g, b, a);
   }
 

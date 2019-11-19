@@ -198,3 +198,18 @@ test("HSLA.prototype.toRgb converts hsl(0, 100%, 25%) to rgb(128, 0, 0)", async 
     })
   );
 });
+
+test("HSLA.fromTuple works as expected", () => {
+  const color = HSLA.fromTuple([0, 50, 50, 1]);
+  expect(color).toEqual(expect.objectContaining({ h: 0, s: 50, l: 50 }));
+});
+
+// test("HSLA.fromTuple fails for short tuple", () => {
+  // const color = HSLA.fromTuple([255, 255] as any);
+  // expect(color).toEqual(new Error(`RGBA.fromTuple requires a tuple with exactly 4 members, received 2 on [255,255]`));
+// });
+// 
+// test("HSLA.fromTuple fails for long tuple", () => {
+  // const color = HSLA.fromTuple([255, 255, 255, 1, 1] as any);
+  // expect(color).toEqual(new Error(`RGBA.fromTuple requires a tuple with exactly 4 members, received 5 on [255,255,255,1,1]`));
+// });
