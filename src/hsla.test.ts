@@ -204,12 +204,52 @@ test("HSLA.fromTuple works as expected", () => {
   expect(color).toEqual(expect.objectContaining({ h: 0, s: 50, l: 50 }));
 });
 
-// test("HSLA.fromTuple fails for short tuple", () => {
-  // const color = HSLA.fromTuple([255, 255] as any);
-  // expect(color).toEqual(new Error(`RGBA.fromTuple requires a tuple with exactly 4 members, received 2 on [255,255]`));
-// });
-// 
-// test("HSLA.fromTuple fails for long tuple", () => {
-  // const color = HSLA.fromTuple([255, 255, 255, 1, 1] as any);
-  // expect(color).toEqual(new Error(`RGBA.fromTuple requires a tuple with exactly 4 members, received 5 on [255,255,255,1,1]`));
-// });
+test("HSLA.fromTuple fails for short tuple", () => {
+  const color = HSLA.fromTuple([0, 50] as any);
+  expect(color).toEqual(new Error(`HSLA.fromTuple requires a tuple with exactly 4 members, received 2 on [0,50]`));
+});
+
+test("HSLA.fromTuple fails for long tuple", () => {
+  const color = HSLA.fromTuple([0, 50, 50, 1, 1] as any);
+  expect(color).toEqual(new Error(`HSLA.fromTuple requires a tuple with exactly 4 members, received 5 on [0,50,50,1,1]`));
+});
+
+test("HSLA.fromTuple fails for negative hue value", () => {
+  const color = HSLA.fromTuple([-1, 0, 0, 0] as any);
+  expect(color).toEqual(new Error(`HSLA.fromTuple requires a hue value matching [0-360], received -1`));
+});
+
+test("HSLA.fromTuple fails for hue value gt 360", () => {
+  const color = HSLA.fromTuple([361, 0, 0, 0] as any);
+  expect(color).toEqual(new Error(`HSLA.fromTuple requires a hue value matching [0-360], received 361`));
+});
+
+test("HSLA.fromTuple fails for negative saturation value", () => {
+  const color = HSLA.fromTuple([0, -1, 0, 0] as any);
+  expect(color).toEqual(new Error(`HSLA.fromTuple requires a saturation value matching [0-100], received -1`));
+});
+
+test("HSLA.fromTuple fails for saturation value gt 100", () => {
+  const color = HSLA.fromTuple([0, 101, 0, 0] as any);
+  expect(color).toEqual(new Error(`HSLA.fromTuple requires a saturation value matching [0-100], received 101`));
+});
+
+test("HSLA.fromTuple fails for negative lightness value", () => {
+  const color = HSLA.fromTuple([0, 0, -1, 0] as any);
+  expect(color).toEqual(new Error(`HSLA.fromTuple requires a lightness value matching [0-100], received -1`));
+});
+
+test("HSLA.fromTuple fails for lightness value gt 100", () => {
+  const color = HSLA.fromTuple([0, 0, 101, 0] as any);
+  expect(color).toEqual(new Error(`HSLA.fromTuple requires a lightness value matching [0-100], received 101`));
+});
+
+test("HSLA.fromTuple fails for negative alpha channel", () => {
+  const color = HSLA.fromTuple([0, 0, 0, -0.1] as any);
+  expect(color).toEqual(new Error(`HSLA.fromTuple requires an alpha channel matching [0-1], received -0.1`));
+});
+
+test("HSLA.fromTuple fails for alpha channel gt 1", () => {
+  const color = HSLA.fromTuple([0, 0, 0, 1.1] as any);
+  expect(color).toEqual(new Error(`HSLA.fromTuple requires an alpha channel matching [0-1], received 1.1`));
+});

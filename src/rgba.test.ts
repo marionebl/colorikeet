@@ -206,6 +206,7 @@ test("RGBA.fromTuple fails for alpha channel gt 1", () => {
   expect(color).toEqual(new Error(`RGBA.fromTuple requires an alpha channel matching [0-1], received 1.1`));
 });
 
+
 test.each`
   rgba                  | hsla
   ${[0, 0, 0, 1]}       | ${[0, 0, 0, 1]}

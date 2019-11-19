@@ -192,12 +192,15 @@ export class RGBA {
       return degree < 0 ? 360 + degree : degree;
     };
 
-    return HSLA.fromTuple([
+    const result = HSLA.fromTuple([
       roundTo(hue(), 2),
       roundTo(saturation() * 100, 2),
       roundTo(lightness * 100, 2),
       this.a
     ]);
+
+    HSLA.assert(result);
+    return result;
   }
 }
 

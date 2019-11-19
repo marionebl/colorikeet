@@ -1,4 +1,5 @@
 import { RGBA } from "./rgba";
+import { assertRange } from "./assert-range";
 
 export class HSLA {
   private constructor(
@@ -42,12 +43,43 @@ export class HSLA {
     );
   }
 
-  public static fromTuple([h, s, l, a]: [
-    number,
-    number,
-    number,
-    number
-  ]): HSLA {
+  public static fromTuple(
+    input: [number, number, number, number]
+  ): HSLA | Error {
+    if (input.length !== 4) {
+      return new Error(
+        `HSLA.fromTuple requires a tuple with exactly 4 members, received ${
+          input.length
+        } on ${JSON.stringify(input)}`
+      );
+    }
+
+    const [h, s, l, a] = input;
+
+    if (h < 0 || h > 360) {
+      return new Error(
+        `HSLA.fromTuple requires a hue value matching [0-360], received ${h}`
+      );
+    }
+
+    if (s < 0 || s > 100) {
+      return new Error(
+        `HSLA.fromTuple requires a saturation value matching [0-100], received ${s}`
+      );
+    }
+
+    if (l < 0 || l > 100) {
+      return new Error(
+        `HSLA.fromTuple requires a lightness value matching [0-100], received ${l}`
+      );
+    }
+
+    if (a < 0 || a > 1) {
+      return new Error(
+        `HSLA.fromTuple requires an alpha channel matching [0-1], received ${a}`
+      );
+    }
+
     return new HSLA(h, s, l, a);
   }
 
@@ -93,7 +125,9 @@ export class HSLA {
     g = Math.round((g + m) * 255);
     b = Math.round((b + m) * 255);
 
-    return RGBA.fromTuple([r, g, b, this.a]);
+    const rgba = RGBA.fromTuple([r, g, b, this.a]);
+    RGBA.assert(rgba);
+    return rgba;
   }
 
   public toHsla(): this {
