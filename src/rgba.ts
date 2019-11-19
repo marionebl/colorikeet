@@ -151,7 +151,7 @@ export class RGBA {
       }
 
       if (lightness >= 0.5) {
-        return delta / ((2 - max - min));
+        return delta / (2 - max - min);
       }
 
       return delta / (max + min);
