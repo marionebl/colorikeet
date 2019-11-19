@@ -7,6 +7,7 @@ interface JestConfig extends Partial<Config.InitialOptions> {
 
 const config: Partial<JestConfig> = {
   preset: 'ts-jest',
+  automock: true,
   testMatch: ['**/?(*.)+(spec|test).[jt]s?(x)'],
   rootDir: './src',
   globals: {

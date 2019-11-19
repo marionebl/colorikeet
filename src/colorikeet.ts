@@ -1,4 +1,5 @@
 import {RGBA} from './rgba';
+import {HSLA} from './hsla';
 
 export interface RGBColor {
     readonly r: number;
@@ -14,7 +15,7 @@ export interface RGBAColor {
 }
 
 export class Colorikeet {
-    private constructor(private color: RGBA) {}
+    private constructor(private color: RGBA | HSLA) {}
 
     public static assert(color: Colorikeet | Error): asserts color is Colorikeet {
         if (color instanceof Error) {
@@ -27,7 +28,21 @@ export class Colorikeet {
     }
 
     public static from(input: string): Colorikeet | Error {
-        const color = RGBA.fromHexString(input);
+        let color: RGBA | HSLA | Error;
+
+        if (input.startsWith('hsl')) {
+            color = HSLA.fromHslString(input);
+        }
+
+        if (input.startsWith('#')) {
+            color = RGBA.fromHexString(input);
+        }
+
+        if (input.startsWith('rgb')) {
+            color = RGBA.fromRgbString(input);
+        }
+
+        color = RGBA.fromNameString(input);
 
         if (color instanceof Error) {
             return color;
@@ -47,12 +62,12 @@ export class Colorikeet {
     }
 
     public get rgb(): RGBColor {
-        const {r, g, b} = this.color;
+        const {r, g, b} = this.color.toRgb();
         return {r, g, b};
     }
 
     public get rgba(): RGBAColor {
-        const {r, g, b, a} = this.color;
+        const {r, g, b, a} = this.color.toRgb();
         return {r, g, b, a};
     }
 }

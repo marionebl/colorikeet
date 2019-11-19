@@ -6,7 +6,8 @@
         "lib": ["dom", "es2015"],
         "skipLibCheck": true,
         "outDir": "lib",
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "module": "commonjs"
     },
     "include": ["src/**/*.ts"]
 }
