@@ -64,6 +64,18 @@ export class Colorikeet {
     return new Colorikeet(color);
   }
 
+  public static fromRgbTuple(
+    input: [number, number, number, number]
+  ): Colorikeet | Error {
+      const result = RGBA.fromTuple(input);
+
+      if (!RGBA.valid(result)) {
+          return result;
+      }
+
+      return new Colorikeet(result);
+    }
+
   public static optional(input: string): Colorikeet | undefined {
     const result = Colorikeet.from(input);
 

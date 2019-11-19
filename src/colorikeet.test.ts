@@ -1,4 +1,5 @@
 import { Colorikeet } from "./colorikeet";
+import { RGBA } from "./rgba";
 
 jest.unmock("./colorikeet");
 
@@ -35,4 +36,9 @@ test("Colorikeet.fromString delegates to HSLA.fromHslString for hsl(255, 0%, 0%)
 
   Colorikeet.from("hsl(255, 0%, 0%)");
   expect(HSLA.fromHslString).toHaveBeenCalledWith("hsl(255, 0%, 0%)");
+});
+
+test("Colorikeet.fromRgbTuple delegates to RGBA.fromTuple", () => {
+  Colorikeet.fromRgbTuple([255, 255, 255, 1]);
+  expect(RGBA.fromTuple).toHaveBeenCalledWith([255, 255, 255, 1]);
 });

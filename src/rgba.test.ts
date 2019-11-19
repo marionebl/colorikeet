@@ -166,6 +166,26 @@ test("RGBA.assert throws for error", () => {
   expect(() => RGBA.assert(RGBA.fromHexString(""))).toThrow();
 });
 
+test("RGBA.fromTuple works as expected", () => {
+  const color = RGBA.fromTuple([255, 255, 255, 1]);
+  expect(color).toEqual(expect.objectContaining({ r: 255, g: 255, b: 255 }));
+});
+
+test("RGBA.fromTuple works as expected", () => {
+  const color = RGBA.fromTuple([255, 255, 255, 1]);
+  expect(color).toEqual(expect.objectContaining({ r: 255, g: 255, b: 255 }));
+});
+
+test("RGBA.fromTuple fails for short tuple", () => {
+  const color = RGBA.fromTuple([255, 255] as any);
+  expect(color).toEqual(new Error(`RGBA.fromTuple requires a tuple with exactly 4 members, received 2 on [255,255]`));
+});
+
+test("RGBA.fromTuple fails for long tuple", () => {
+  const color = RGBA.fromTuple([255, 255, 255, 1, 1] as any);
+  expect(color).toEqual(new Error(`RGBA.fromTuple requires a tuple with exactly 4 members, received 5 on [255,255,255,1,1]`));
+});
+
 test.each`
   rgba                  | hsla
   ${[0, 0, 0, 1]}       | ${[0, 0, 0, 1]}

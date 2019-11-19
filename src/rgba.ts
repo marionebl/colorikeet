@@ -19,8 +19,12 @@ export class RGBA {
     return color instanceof Error === false;
   }
 
-  public static fromTuple(input: [number, number, number, number]): RGBA {
-    const [r, g, b, a = 1] = input;
+  public static fromTuple(input: [number, number, number, number]): RGBA | Error {
+    if (input.length !== 4) {
+      return new Error(`RGBA.fromTuple requires a tuple with exactly 4 members, received ${input.length} on ${JSON.stringify(input)}`);
+    }
+
+    const [r, g, b, a] = input;
     return new RGBA(r, g, b, a);
   }
 
