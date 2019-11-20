@@ -27,6 +27,19 @@ export interface HSLAColor {
   readonly a: number;
 }
 
+export interface HexColor {
+  r: string;
+  g: string;
+  b: string;
+}
+
+export interface HexaColor {
+  r: string;
+  g: string;
+  b: string;
+  a: string;
+}
+
 export class Colorikeet {
   private constructor(private color: RGBA | HSLA) {}
 
@@ -67,14 +80,14 @@ export class Colorikeet {
   public static fromRgbTuple(
     input: [number, number, number, number]
   ): Colorikeet | Error {
-      const result = RGBA.fromTuple(input);
+    const result = RGBA.fromTuple(input);
 
-      if (!RGBA.valid(result)) {
-          return result;
-      }
-
-      return new Colorikeet(result);
+    if (!RGBA.valid(result)) {
+      return result;
     }
+
+    return new Colorikeet(result);
+  }
 
   public static optional(input: string): Colorikeet | undefined {
     const result = Colorikeet.from(input);
@@ -84,6 +97,16 @@ export class Colorikeet {
     }
 
     return result;
+  }
+
+  public get hex(): HexColor {
+    const { r, g, b } = this.color.toRgb();
+    return { r: hex(r), g: hex(g), b: hex(b) };
+  }
+
+  public get hexa(): HexaColor {
+    const { r, g, b, a } = this.color.toRgb();
+    return { r: hex(r), g: hex(g), b: hex(b), a: hex(Math.round(a * 255)) };
   }
 
   public get rgb(): RGBColor {
@@ -105,4 +128,10 @@ export class Colorikeet {
     const { h, s, l, a } = this.color.toHsla();
     return { h, s, l, a };
   }
+}
+
+function hex(channel: number): string {
+  const h = channel.toString(16);
+  const prefix = h.length === 1 ? "0" : "";
+  return `${prefix}${h}`;
 }

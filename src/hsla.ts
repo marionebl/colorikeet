@@ -1,5 +1,4 @@
 import { RGBA } from "./rgba";
-import { assertRange } from "./assert-range";
 
 export class HSLA {
   private constructor(
