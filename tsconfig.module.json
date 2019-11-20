@@ -5,9 +5,9 @@
     "target": "es5",
     "lib": ["dom", "es5"],
     "skipLibCheck": true,
-    "outDir": "lib",
+    "outDir": "module",
     "esModuleInterop": true,
-    "module": "commonjs"
+    "module": "es2015"
   },
   "include": ["src/**/*.ts"],
   "exclude": ["src/**/*.test.ts"]

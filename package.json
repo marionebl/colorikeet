@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "description": "A minimal color math toolset",
   "main": "lib/colorikeet.js",
+  "module": "module/colorikeet.js",
   "repository": "git@github.com:marionebl/colorikeet.git",
   "author": "Mario Nebl <hello@mario-nebl.de>",
   "license": "MIT",
+  "files": ["lib", "module"],
   "scripts": {
-    "build": "tsc --build tsconfig.json",
+    "build": "tsc --build tsconfig.json && tsc --build tsconfig.module.json",
+    "build:es5": "tsc --build tsconfig.json",
+    "build:module": "tsc --build tsconfig.module.json",
     "pretest": "tsc --build tsconfig.jest.json",
     "test": "jest"
   },
