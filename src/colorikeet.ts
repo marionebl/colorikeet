@@ -93,6 +93,16 @@ export class Colorikeet {
     return { h, s, l, a };
   }
 
+  public get luminance(): number {
+    const { r, g, b } = this.rgb;
+    return [r, g, b]
+      .map(c => {
+        c /= 255;
+        return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+      })
+      .reduce((acc, c, i) => acc + c * [0.2126, 0.7152, 0.0722][i]!, 0);
+  }
+
   public with(
     data: Partial<T.HSLAColor> | Partial<T.RGBAColor>
   ): Colorikeet | Error {
@@ -166,6 +176,12 @@ export class Colorikeet {
 
   public withAlpha(a: number): Colorikeet | Error {
     return this.with({ a });
+  }
+
+  public contrast(b: Colorikeet): number {
+    const light = Math.max(this.luminance, b.luminance);
+    const dark = Math.min(this.luminance, b.luminance);
+    return Math.floor(((light + 0.05) / (dark / 0.05)) * 100) / 100;
   }
 }
 
