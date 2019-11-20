@@ -1,4 +1,4 @@
-import { RGBA } from "./rgba";
+import { RGBAColor, HSLAColor } from "./types";
 
 export class HSLA {
   private constructor(
@@ -82,7 +82,7 @@ export class HSLA {
     return new HSLA(h, s, l, a);
   }
 
-  public toRgb(): RGBA {
+  public toRgb(): RGBAColor {
     const h = this.h;
     const s = this.s / 100;
     const l = this.l / 100;
@@ -124,12 +124,10 @@ export class HSLA {
     g = Math.round((g + m) * 255);
     b = Math.round((b + m) * 255);
 
-    const rgba = RGBA.fromTuple([r, g, b, this.a]);
-    RGBA.assert(rgba);
-    return rgba;
+    return { r, g, b, a: this.a };
   }
 
-  public toHsla(): this {
-    return this;
+  public toHsla(): HSLAColor {
+    return { h: this.h, s: this.s, l: this.l, a: this.a };
   }
 }

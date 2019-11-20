@@ -7,7 +7,10 @@
   "repository": "git@github.com:marionebl/colorikeet.git",
   "author": "Mario Nebl <hello@mario-nebl.de>",
   "license": "MIT",
-  "files": ["lib", "module"],
+  "files": [
+    "lib",
+    "module"
+  ],
   "scripts": {
     "build": "tsc --build tsconfig.json && tsc --build tsconfig.module.json",
     "build:es5": "tsc --build tsconfig.json",
@@ -19,12 +22,15 @@
     "@types/jest": "^24.0.22",
     "@types/node": "^12.12.6",
     "jest": "^24.9.0",
+    "rollup": "^1.27.2",
+    "rollup-plugin-node-resolve": "^5.2.0",
     "ts-jest": "^24.1.0",
     "typescript": "^3.7.2"
   },
   "dependencies": {
     "@types/color-name": "^1.1.1",
     "calculate-a11y-combinations": "^1.0.2",
-    "color-name": "^1.1.4"
+    "color-name": "^1.1.4",
+    "rollup-plugin-size-snapshot": "^0.10.0"
   }
 }

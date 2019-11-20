@@ -1,5 +1,5 @@
 import * as colors from "color-name";
-import { HSLA } from "./hsla";
+import { HSLAColor, RGBAColor } from "./types";
 
 export class RGBA {
   private constructor(
@@ -19,21 +19,37 @@ export class RGBA {
     return color instanceof Error === false;
   }
 
-  public static fromTuple(input: [number, number, number, number]): RGBA | Error {
+  public static fromTuple(
+    input: [number, number, number, number]
+  ): RGBA | Error {
     if (input.length !== 4) {
-      return new Error(`RGBA.fromTuple requires a tuple with exactly 4 members, received ${input.length} on ${JSON.stringify(input)}`);
+      return new Error(
+        `RGBA.fromTuple requires a tuple with exactly 4 members, received ${
+          input.length
+        } on ${JSON.stringify(input)}`
+      );
     }
-  
+
     const [r, g, b, a] = input;
 
-    const offending = [['r', r], ['g', g], ['b', b]].filter(([, c]) => c < 0 || c > 255);
+    const offending = [
+      ["r", r],
+      ["g", g],
+      ["b", b]
+    ].filter(([, c]) => c < 0 || c > 255);
 
     if (offending.length > 0) {
-      return new Error(`RGBA.fromTuple requires rgb channel values matching [0-255], received ${offending.map(([n, v]) => `${v} for ${n}`).join(', ')}`);
+      return new Error(
+        `RGBA.fromTuple requires rgb channel values matching [0-255], received ${offending
+          .map(([n, v]) => `${v} for ${n}`)
+          .join(", ")}`
+      );
     }
 
     if (a < 0 || a > 1) {
-      return new Error(`RGBA.fromTuple requires an alpha channel matching [0-1], received ${a}`)
+      return new Error(
+        `RGBA.fromTuple requires an alpha channel matching [0-1], received ${a}`
+      );
     }
 
     return new RGBA(r, g, b, a);
@@ -146,11 +162,11 @@ export class RGBA {
     );
   }
 
-  public toRgb(): this {
-    return this;
+  public toRgb(): RGBAColor {
+    return { r: this.r, g: this.g, b: this.b, a: this.a };
   }
 
-  public toHsla(): HSLA {
+  public toHsla(): HSLAColor {
     const r = this.r / 255;
     const g = this.g / 255;
     const b = this.b / 255;
@@ -192,15 +208,12 @@ export class RGBA {
       return degree < 0 ? 360 + degree : degree;
     };
 
-    const result = HSLA.fromTuple([
-      roundTo(hue(), 2),
-      roundTo(saturation() * 100, 2),
-      roundTo(lightness * 100, 2),
-      this.a
-    ]);
-
-    HSLA.assert(result);
-    return result;
+    return {
+      h: roundTo(hue(), 2),
+      s: roundTo(saturation() * 100, 2),
+      l: roundTo(lightness * 100, 2),
+      a: this.a
+    };
   }
 }
 
