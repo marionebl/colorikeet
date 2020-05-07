@@ -72,7 +72,7 @@ export class RGBA {
 
     const matcher =
       dataLength === 3 || dataLength === 4 ? /[a-f0-9]/g : /[a-f0-9]{2}/g;
-    const data = input.slice(1).match(matcher);
+    const data = input.slice(1).toLowerCase().match(matcher);
 
     if (data === null) {
       return new Error(
