@@ -18,27 +18,27 @@ export class Colorikeet {
   }
 
   public static from(input: string): Colorikeet | Error {
-    let color: RGBA | HSLA | Error;
+    let result: RGBA | HSLA | Error | undefined = undefined;
 
     if (input.startsWith("hsl")) {
-      color = HSLA.fromHslString(input);
+      result = HSLA.fromHslString(input);
     }
 
     if (input.startsWith("#")) {
-      color = RGBA.fromHexString(input);
+      result = RGBA.fromHexString(input);
     }
 
     if (input.startsWith("rgb")) {
-      color = RGBA.fromRgbString(input);
+      result = RGBA.fromRgbString(input);
     }
 
-    color = RGBA.fromNameString(input);
+    const color = result ? RGBA.fromNameString(input) : result;
 
     if (color instanceof Error) {
       return color;
     }
 
-    return new Colorikeet(color);
+    return new Colorikeet(color!);
   }
 
   public static fromRgbTuple(
@@ -96,7 +96,7 @@ export class Colorikeet {
   public get luminance(): number {
     const { r, g, b } = this.rgb;
     return [r, g, b]
-      .map(c => {
+      .map((c) => {
         c /= 255;
         return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
       })
@@ -109,7 +109,7 @@ export class Colorikeet {
     const isHslData = (
       d: Partial<T.HSLAColor> | Partial<T.RGBAColor>
     ): d is Partial<T.HSLAColor> =>
-      Object.keys(d).some(key => ["h", "s", "l"].includes(key));
+      Object.keys(d).some((key) => ["h", "s", "l"].includes(key));
 
     if (isHslData(data)) {
       return this.withHsl(data);
