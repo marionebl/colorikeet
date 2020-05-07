@@ -1,6 +1,6 @@
 {
   "name": "colorikeet",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A minimal color math toolset",
   "main": "lib/colorikeet.js",
   "module": "module/colorikeet.js",
