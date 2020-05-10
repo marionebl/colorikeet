@@ -43,7 +43,7 @@ test("RGBA.fromHexString fails for #0", () => {
   const error = RGBA.fromHexString("#0");
   expect(error).toEqual(
     new Error(
-      'Could not parse "#0" as hex color, expected 4, 5, 7, or 9 characters'
+      'Could not parse as hex color, expected 4, 5, 7, or 9 characters, received 1 in "#0"'
     )
   );
 });
@@ -52,7 +52,7 @@ test("RGBA.fromHexString fails for #ffgfff", () => {
   const error = RGBA.fromHexString("#ffgfff");
   expect(error).toEqual(
     new Error(
-      'Could not parse "#ffgfff" as hex color, it must match pattern #([0-9a-f]+)'
+      'Could not parse as hex color it must match pattern #([0-9a-f]+), received "#ffgfff"'
     )
   );
 });
@@ -61,7 +61,7 @@ test("RGBA.fromHexString fails for # 99999", () => {
   const error = RGBA.fromHexString("# 99999");
   expect(error).toEqual(
     new Error(
-      'Could not parse "# 99999" as hex color, it must match pattern #([0-9a-f]+)'
+      'Could not parse as hex color it must match pattern #([0-9a-f]+), received "# 99999"'
     )
   );
 });
@@ -70,7 +70,7 @@ test("RGBA.fromHexString fails for #ffffffgf", () => {
   const error = RGBA.fromHexString("#ffffffgf");
   expect(error).toEqual(
     new Error(
-      'Could not parse "#ffffffgf" as hex color, it must match pattern #([0-9a-f]+)'
+      'Could not parse as hex color it must match pattern #([0-9a-f]+), received "#ffffffgf"'
     )
   );
 });
@@ -118,7 +118,7 @@ test("RGBA.fromRgbString fails for r(255, 255, 255)", () => {
   const error = RGBA.fromRgbString("r(255, 255, 255)");
   expect(error).toEqual(
     new Error(
-      'Could not parse "r(255, 255, 255)" as rgb color, it must match pattern rgba?([0-9s.,%]+)'
+      'Could not parse as rgb color, it must match pattern rgba?([0-9s.,%]+), received "r(255, 255, 255)"'
     )
   );
 });
@@ -127,7 +127,7 @@ test("RGBA.fromRgbString fails for rgb(%, ..., )", () => {
   const error = RGBA.fromRgbString("rgb(%, ..., )");
   expect(error).toEqual(
     new Error(
-      'Could not parse "rgb(%, ..., )" as rgb color, it must contain 3 channels [0-255]'
+      'Could not parse as rgb color, it must contain 3 channels [0-255], received "rgb(%, ..., )"'
     )
   );
 });
@@ -136,7 +136,7 @@ test("RGBA.fromRgbString fails for rgb(255, 255, 255, .%)", () => {
   const error = RGBA.fromRgbString("rgb(255, 255, 255, .%)");
   expect(error).toEqual(
     new Error(
-      'Could not parse "rgb(255, 255, 255, .%)" as rgb color, alpha channel must be [0-1] or [0-100]%'
+      'Could not parse as rgb color, it must contain 3 channels [0-255], received "rgb(255, 255, 255, .%)"'
     )
   );
 });
@@ -145,7 +145,7 @@ test("RGBA.fromRgbString fails for rgb(255.255.255)", () => {
   const error = RGBA.fromRgbString("rgb(255.255.255)");
   expect(error).toEqual(
     new Error(
-      'Could not parse "rgb(255.255.255)" as rgb color, must contain 3 or 4 channels - received 1'
+      'Could not parse as rgb color, must contain 3 or 4 channels - received 1 in "rgb(255.255.255)"'
     )
   );
 });

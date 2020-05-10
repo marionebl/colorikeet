@@ -16,7 +16,7 @@
     "build:es5": "tsc --build tsconfig.json",
     "build:module": "tsc --build tsconfig.module.json",
     "pretest": "tsc --build tsconfig.jest.json",
-    "test": "jest"
+    "test": "NODE_ENV=development jest"
   },
   "devDependencies": {
     "@types/color-name": "^1.1.1",

@@ -1,20 +1,20 @@
 export const hslaCount =
-  process.env.NOD_ENV === "development"
+  process.env.NODE_ENV === "development"
     ? "HSLA.fromTuple requires a tuple with exactly 4 members, received"
     : "A";
 
 export const hslaRange =
-  process.env.NOD_ENV === "development"
+  process.env.NODE_ENV === "development"
     ? "HSLA.fromTuple requires a hue value matching [0-360], received"
     : "B";
 
 export const hslaSuturation =
-  process.env.NOD_ENV === "development"
+  process.env.NODE_ENV === "development"
     ? "HSLA.fromTuple requires a saturation value matching [0-100], received"
     : "C";
 
 export const hslaLightness =
-  process.env.NOD_ENV === "development"
+  process.env.NODE_ENV === "development"
     ? "HSLA.fromTuple requires a lightness value matching [0-100], received"
     : "D";
 
@@ -24,7 +24,7 @@ export const hlsaAlpha =
     : "E";
 
 export const rgbaCount =
-  process.env.NOD_ENV === "development"
+  process.env.NODE_ENV === "development"
     ? "RGBA.fromTuple requires a tuple with exactly 4 members, received"
     : "A";
 
