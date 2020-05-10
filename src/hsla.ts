@@ -1,8 +1,9 @@
 import { RGBAColor, HSLAColor } from "./types";
 import {
+  hslaPattern,
   hslaCount,
   hslaRange,
-  hslaSuturation,
+  hslaSaturation,
   hslaLightness,
   hlsaAlpha,
 } from "./messages";
@@ -31,11 +32,7 @@ export class HSLA {
     );
 
     if (match === null) {
-      return new Error(
-        `Could not parse ${JSON.stringify(
-          input
-        )} as hsla color, it must match pattern hsla?([0-255], [0-100]%, [0-100%], [0 - 1]?)`
-      );
+      return new Error(`${hslaPattern} ${JSON.stringify(input)}`);
     }
 
     const [, /* input */ rawH, rawS, rawL /* withWhitespace */, , rawA] = match;
@@ -65,7 +62,7 @@ export class HSLA {
     }
 
     if (s < 0 || s > 100) {
-      return new Error(`${hslaSuturation} ${s}`);
+      return new Error(`${hslaSaturation} ${s}`);
     }
 
     if (l < 0 || l > 100) {

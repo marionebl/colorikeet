@@ -8,7 +8,7 @@ export const hslaRange =
     ? "HSLA.fromTuple requires a hue value matching [0-360], received"
     : "B";
 
-export const hslaSuturation =
+export const hslaSaturation =
   process.env.NODE_ENV === "development"
     ? "HSLA.fromTuple requires a saturation value matching [0-100], received"
     : "C";
@@ -82,3 +82,8 @@ export const namedNotFound =
   process.env.NODE_ENV === "development"
     ? "Could not resolve as named color, received"
     : "O";
+
+export const hslaPattern =
+  process.env.NODE_ENV === "development"
+    ? "Could not parse as hsla color, it must match pattern hsla?([0-255], [0-100]%, [0-100%], [0 - 1]?), received"
+    : "P";
