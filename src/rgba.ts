@@ -1,5 +1,19 @@
 import * as colors from "color-name";
 import { HSLAColor, RGBAColor } from "./types";
+import {
+  rgbaChannelsTuple,
+  rgbaAlpha,
+  hexHash,
+  hexLength,
+  hexPatternMatach,
+  hexDataType,
+  rgbaCount,
+  rgbaPattern,
+  rgbaLength,
+  rgbaChannels,
+  rgbaAlphaTuple,
+  namedNotFound,
+} from "./messages";
 
 export class RGBA {
   private constructor(
@@ -24,9 +38,7 @@ export class RGBA {
   ): RGBA | Error {
     if (input.length !== 4) {
       return new Error(
-        `RGBA.fromTuple requires a tuple with exactly 4 members, received ${
-          input.length
-        } on ${JSON.stringify(input)}`
+        `${rgbaCount} ${input.length} on ${JSON.stringify(input)}`
       );
     }
 
@@ -35,21 +47,19 @@ export class RGBA {
     const offending = [
       ["r", r],
       ["g", g],
-      ["b", b]
+      ["b", b],
     ].filter(([, c]) => c < 0 || c > 255);
 
     if (offending.length > 0) {
       return new Error(
-        `RGBA.fromTuple requires rgb channel values matching [0-255], received ${offending
+        `${rgbaChannelsTuple} ${offending
           .map(([n, v]) => `${v} for ${n}`)
           .join(", ")}`
       );
     }
 
     if (a < 0 || a > 1) {
-      return new Error(
-        `RGBA.fromTuple requires an alpha channel matching [0-1], received ${a}`
-      );
+      return new Error(`${rgbaAlphaTuple} ${a}`);
     }
 
     return new RGBA(r, g, b, a);
@@ -57,16 +67,14 @@ export class RGBA {
 
   public static fromHexString(input: string): RGBA | Error {
     if (!input.startsWith("#")) {
-      return new Error("Could not parse hex color without leading #");
+      return new Error(hexHash);
     }
 
     const dataLength = input.length - 1;
 
     if (![3, 4, 6, 8].includes(dataLength)) {
       return new Error(
-        `Could not parse ${JSON.stringify(
-          input
-        )} as hex color, expected 4, 5, 7, or 9 characters`
+        `${hexLength} ${dataLength} in ${JSON.stringify(input)}`
       );
     }
 
@@ -75,14 +83,10 @@ export class RGBA {
     const data = input.slice(1).toLowerCase().match(matcher);
 
     if (data === null) {
-      return new Error(
-        `Could not parse ${JSON.stringify(
-          input
-        )} as hex color, it must match pattern #([0-9a-f]+)`
-      );
+      return new Error(`${hexPatternMatach} ${JSON.stringify(input)}`);
     }
 
-    const parsed = data!.map(raw =>
+    const parsed = data!.map((raw) =>
       parseInt(raw.length === 2 ? raw : raw.repeat(2), 16)
     );
 
@@ -94,11 +98,7 @@ export class RGBA {
       !Number.isInteger(b) ||
       ([4, 8].includes(dataLength) && !Number.isInteger(rawA))
     ) {
-      return new Error(
-        `Could not parse ${JSON.stringify(
-          input
-        )} as hex color, it must match pattern #([0-9a-f]+)`
-      );
+      return new Error(`${hexDataType} ${JSON.stringify(input)}`);
     }
 
     const a = typeof rawA === "undefined" ? 255 : rawA;
@@ -109,28 +109,26 @@ export class RGBA {
     const match = input.match(/rgba?\(([0-9\s\.,%]+)\)/);
 
     if (match === null) {
-      return new Error(
-        `Could not parse "${input}" as rgb color, it must match pattern rgba?([0-9\s\.,%]+)`
-      );
+      return new Error(`${rgbaPattern}, received ${JSON.stringify(input)}`);
     }
 
-    const data = match[1].split(",").map(item => item.trim());
+    const data = match[1].split(",").map((item) => item.trim());
 
     if (![3, 4].includes(data.length)) {
       return new Error(
-        `Could not parse "${input}" as rgb color, must contain 3 or 4 channels - received ${data.length}`
+        `${rgbaLength} ${data.length} in ${JSON.stringify(input)}`
       );
     }
 
     const [r, g, b] = data
       .slice(0, 3)
-      .map(value => Math.min(parseInt(value, 10), 255));
+      .map((value) => Math.min(parseInt(value, 10), 255));
 
     if (!Number.isInteger(r) || !Number.isInteger(g) || !Number.isInteger(b)) {
       return new Error(
-        `Could not parse ${JSON.stringify(
+        `${rgbaChannels} ${JSON.stringify(
           input
-        )} as rgb color, it must contain 3 channels [0-255]`
+        )}`
       );
     }
 
@@ -138,9 +136,9 @@ export class RGBA {
 
     if (Number.isNaN(a)) {
       return new Error(
-        `Could not parse ${JSON.stringify(
+        `${rgbaAlpha} ${JSON.stringify(
           input
-        )} as rgb color, alpha channel must be [0-1] or [0-100]%`
+        )}`
       );
     }
 
@@ -158,7 +156,7 @@ export class RGBA {
     }
 
     return new Error(
-      `Could not resolve ${JSON.stringify(input)} as named color`
+      `${namedNotFound} ${JSON.stringify(input)}`
     );
   }
 
@@ -212,7 +210,7 @@ export class RGBA {
       h: roundTo(hue(), 2),
       s: roundTo(saturation() * 100, 2),
       l: roundTo(lightness * 100, 2),
-      a: this.a
+      a: this.a,
     };
   }
 }

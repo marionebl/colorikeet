@@ -1,4 +1,11 @@
 import { RGBAColor, HSLAColor } from "./types";
+import {
+  hslaCount,
+  hslaRange,
+  hslaSuturation,
+  hslaLightness,
+  hlsaAlpha,
+} from "./messages";
 
 export class HSLA {
   private constructor(
@@ -47,36 +54,26 @@ export class HSLA {
   ): HSLA | Error {
     if (input.length !== 4) {
       return new Error(
-        `HSLA.fromTuple requires a tuple with exactly 4 members, received ${
-          input.length
-        } on ${JSON.stringify(input)}`
+        `${hslaCount} ${input.length} on ${JSON.stringify(input)}`
       );
     }
 
     const [h, s, l, a] = input;
 
     if (h < 0 || h > 360) {
-      return new Error(
-        `HSLA.fromTuple requires a hue value matching [0-360], received ${h}`
-      );
+      return new Error(`${hslaRange} ${h}`);
     }
 
     if (s < 0 || s > 100) {
-      return new Error(
-        `HSLA.fromTuple requires a saturation value matching [0-100], received ${s}`
-      );
+      return new Error(`${hslaSuturation} ${s}`);
     }
 
     if (l < 0 || l > 100) {
-      return new Error(
-        `HSLA.fromTuple requires a lightness value matching [0-100], received ${l}`
-      );
+      return new Error(`${hslaLightness} ${l}`);
     }
 
     if (a < 0 || a > 1) {
-      return new Error(
-        `HSLA.fromTuple requires an alpha channel matching [0-1], received ${a}`
-      );
+      return new Error(`${hlsaAlpha} ${a}`);
     }
 
     return new HSLA(h, s, l, a);
